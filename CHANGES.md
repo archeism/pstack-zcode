@@ -21,8 +21,11 @@ later), comprising:
   `hooks/session-start.sh`, wired through `hooks/zcode-hooks.json`.
 - Correction after live verification: ZCode registers plugin agents from the
   `agents/` directory as native dispatchable types, so `pstack:poteto-agent`
-  and `pstack:comment-sicko` work as on Claude Code (dispatch smoke-tested);
-  only the `effort-agents/` tiers need the prompt-payload fallback. The
-  mapping doc and README were updated to say so.
+  and `pstack:comment-sicko` work as on Claude Code (dispatch smoke-tested).
+- The sync now copies the ten `effort-agents/*.md` definitions into `agents/`
+  so every pstack agent type (`pstack:effort-<level>`,
+  `pstack:poteto-agent-<level>`) registers and dispatches natively on ZCode;
+  the prompt-payload fallback stays documented for skills-only installs.
+  The `effort-agents/` directory remains vendored unchanged.
 - Provenance: upstream NOTICE files and both MIT license texts carried
   unchanged; this port's modifications are MIT, archeism.

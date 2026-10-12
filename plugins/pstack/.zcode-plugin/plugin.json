@@ -25,15 +25,15 @@
   "agents": [
     "./agents/comment-sicko.md",
     "./agents/poteto-agent.md",
-    "./effort-agents/effort-high.md",
-    "./effort-agents/effort-low.md",
-    "./effort-agents/effort-max.md",
-    "./effort-agents/effort-medium.md",
-    "./effort-agents/effort-xhigh.md",
-    "./effort-agents/poteto-agent-high.md",
-    "./effort-agents/poteto-agent-low.md",
-    "./effort-agents/poteto-agent-max.md",
-    "./effort-agents/poteto-agent-medium.md",
-    "./effort-agents/poteto-agent-xhigh.md"
+    "./agents/effort-high.md",
+    "./agents/effort-low.md",
+    "./agents/effort-max.md",
+    "./agents/effort-medium.md",
+    "./agents/effort-xhigh.md",
+    "./agents/poteto-agent-high.md",
+    "./agents/poteto-agent-low.md",
+    "./agents/poteto-agent-max.md",
+    "./agents/poteto-agent-medium.md",
+    "./agents/poteto-agent-xhigh.md"
   ]
 }

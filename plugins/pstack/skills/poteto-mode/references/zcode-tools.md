@@ -23,12 +23,12 @@ No feature flag is needed for subagents: the `Agent` tool is always available, a
 
 ## Subagent policy
 
-poteto-mode's Subagents section sets Claude-specific defaults (`subagent_type: "pstack:poteto-agent"`, `run_in_background: true`). ZCode registers plugin agents from the plugin's `agents/` directory as native, dispatchable agent types, so the two definitions there work exactly as on Claude Code:
+poteto-mode's Subagents section sets Claude-specific defaults (`subagent_type: "pstack:poteto-agent"`, `run_in_background: true`). ZCode registers plugin agents from the plugin's `agents/` directory as native, dispatchable agent types — and this port copies the ten `effort-agents/` definitions into `agents/` so all twelve register:
 
 - `subagent_type: "pstack:poteto-agent"` works as written: it is a native ZCode agent type (verified by live dispatch), and its definition already tells it to read the `poteto-mode` skill in full before any work.
 - `subagent_type: "pstack:comment-sicko"` works as written too; the **no-comments** skill's spawn needs no translation.
-- The `effort-agents/` tree is referenced from the manifest but lives outside `agents/`, and ZCode does not register it as agent types. When a role value carries `@<level>`, or the `default effort` line names a level: dispatch `general-purpose` with a prompt that starts with the matching `effort-agents/effort-<level>.md` (or `poteto-agent-<level>.md`) body, then the task; and where the host lets you pick a subagent's model with a reasoning level, choose it with the model id's `$<level>` suffix (`ListModels` shows each model's supported levels). `session` changes nothing.
-- The agent definition files all travel with the plugin. Any other named agent without a native type dispatches the same way: `general-purpose` with the definition's full body as the prompt prefix. The definition file is the system prompt.
+- `pstack:effort-<level>` and `pstack:poteto-agent-<level>` dispatch natively as well (their definitions are copied into `agents/` by this port's sync). When a role value carries `@<level>`, or the `default effort` line names a level, pick the matching type exactly as on Claude Code. Where the host lets you pick a subagent's model with a reasoning level, the model id's `$<level>` suffix is ZCode's native equivalent (`ListModels` shows each model's supported levels). `session` changes nothing.
+- An agent name that does not register (for example on a skills-only install without the `agents/` tree) falls back to: dispatch `general-purpose` with a prompt that starts with the agent definition's full body, then the task. The definition file is the system prompt.
 - Claude Code runs every subagent on this machine, so the **swarm** skill's workers and the fan-out playbooks (`orchestrate`, `autopilot-full`, `autopilot-stack`) isolate writers with worktrees. The same holds on ZCode: writers get their own worktree or branch, created with `Bash` (`git worktree add`).
 - Keep the rest of the policy unchanged. Pass file pointers not inlined context, give each worker its own worktree or branch when they write, review every subagent's diff yourself.
 
@@ -67,7 +67,7 @@ Affected skill entry points point here. Most skills need only the tables above. 
 
 | Skill | On ZCode |
 |-------|----------|
-| `interrogate` | The `subagent_type`/`model`/`readonly` dispatch fields map to `Agent` calls (`Explore` for read-only; `pstack:poteto-agent` dispatches natively); substitute your host's models and keep the reviewer panel model-diverse. Effort suffixes use the Subagent policy fallback above. |
+| `interrogate` | The `subagent_type`/`model`/`readonly` dispatch fields map to `Agent` calls (`Explore` for read-only; `pstack:poteto-agent` and the effort types dispatch natively); substitute your host's models and keep the reviewer panel model-diverse. |
 | `setup-pstack` | The skill's Other runtimes table names the ZCode sheet path and how it loads; the slugs are your host's model ids (see Model names above). The role rows are identical. |
 | `no-comments` | `pstack:comment-sicko` dispatches natively; no translation needed. |
 | `babysit` | No `loop` skill; see the driver table above. |

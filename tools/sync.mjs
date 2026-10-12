@@ -82,6 +82,15 @@ if (missing.length) {
 }
 
 // 3. Overlay port-owned files, stamping the vendored version where marked.
+// First, register the effort agents: ZCode only turns `agents/*.md` into
+// dispatchable agent types (the manifest's agents list is not executed), so
+// the ten `effort-agents/*.md` files are copied beside the two native ones.
+// Upstream references them by type NAME, not path, and the effort-agents/
+// directory is kept vendored so upstream diffs stay clean.
+for (const name of readdirSync(join(target, "effort-agents")).sort()) {
+  if (!name.endsWith(".md")) continue;
+  cpSync(join(target, "effort-agents", name), join(target, "agents", name));
+}
 (function overlay(dir) {
   for (const name of readdirSync(dir).sort()) {
     const path = join(dir, name);
