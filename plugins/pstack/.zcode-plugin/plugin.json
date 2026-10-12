@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pstack",
+  "version": "0.9.82",
+  "description": "If you want to go fast, go deep first. pstack helps you write less, but higher quality code. Rigorous agent workflows you can parallelize with confidence. ZCode port of the pstack plugin: original pstack by Lauren Tan (poteto), Claude Code port by Michael Denyer.",
+  "author": {
+    "name": "archeism",
+    "url": "https://github.com/archeism"
+  },
+  "homepage": "https://github.com/archeism/pstack-zcode",
+  "repository": "https://github.com/archeism/pstack-zcode",
+  "license": "MIT",
+  "keywords": [
+    "pstack",
+    "poteto-mode",
+    "workflow",
+    "principles",
+    "agent-style",
+    "subagents",
+    "unslop",
+    "zcode"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/zcode-hooks.json",
+  "agents": [
+    "./agents/comment-sicko.md",
+    "./agents/poteto-agent.md",
+    "./effort-agents/effort-high.md",
+    "./effort-agents/effort-low.md",
+    "./effort-agents/effort-max.md",
+    "./effort-agents/effort-medium.md",
+    "./effort-agents/effort-xhigh.md",
+    "./effort-agents/poteto-agent-high.md",
+    "./effort-agents/poteto-agent-low.md",
+    "./effort-agents/poteto-agent-max.md",
+    "./effort-agents/poteto-agent-medium.md",
+    "./effort-agents/poteto-agent-xhigh.md"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "substitutions": [
+    {
+      "pattern": "On GitHub Copilot, CLI or app, read [`references/copilot-tools.md`](references/copilot-tools.md) instead.",
+      "files": "^skills/poteto-mode/SKILL\\.md$",
+      "replacement": "On GitHub Copilot, CLI or app, read [`references/copilot-tools.md`](references/copilot-tools.md) instead. On ZCode, read [`references/zcode-tools.md`](references/zcode-tools.md) instead.",
+      "rationale": "the Platform Adaptation section must point ZCode readers at the ZCode platform mapping"
+    },
+    {
+      "pattern": "On Codex, read the [platform mapping](../poteto-mode/references/codex-tools.md), including its per-skill notes, before following this skill.",
+      "replacement": "On Codex, read the [platform mapping](../poteto-mode/references/codex-tools.md), including its per-skill notes, before following this skill. On ZCode, read the [ZCode platform mapping](../poteto-mode/references/zcode-tools.md) the same way.",
+      "rationale": "the same pointer for ZCode on every skill that carries the Codex one (fourteen skills)"
+    },
+    {
+      "pattern": "| Prime Agent | no documented sheet path; Prime's configuration chooses models | | | no live session |",
+      "files": "^skills/setup-pstack/SKILL\\.md$",
+      "replacement": "| ZCode | `${ZCODE_HOME:-~/.zcode}/pstack-models.md` | the plugin's SessionStart hook reads it; without the hook, request `poteto-mode` explicitly | the session's model listing, see [zcode-tools.md](../poteto-mode/references/zcode-tools.md#model-names) | hook contract verified; install verified live |\n| Prime Agent | no documented sheet path; Prime's configuration chooses models | | | no live session |",
+      "rationale": "setup-pstack's Other runtimes table names the ZCode sheet path and how it loads"
+    },
+    {
+      "pattern": "  codex)\n    sheet=\"${CODEX_HOME:-$HOME/.codex}/pstack-models.md\"\n    reader=\"${CLAUDE_PLUGIN_ROOT}/skills/setup-pstack/scripts/read-sheet.sh\"\n    ;;",
+      "files": "^hooks/session-start\\.sh$",
+      "replacement": "  codex)\n    sheet=\"${CODEX_HOME:-$HOME/.codex}/pstack-models.md\"\n    reader=\"${CLAUDE_PLUGIN_ROOT}/skills/setup-pstack/scripts/read-sheet.sh\"\n    ;;\n  zcode)\n    sheet=\"${ZCODE_HOME:-$HOME/.zcode}/pstack-models.md\"\n    reader=\"${CLAUDE_PLUGIN_ROOT}/skills/setup-pstack/scripts/read-sheet.sh\"\n    ;;",
+      "rationale": "the session hook needs a zcode branch: same reader, sheet under the ZCode home"
+    },
+    {
+      "pattern": "expected claude, codex, or copilot",
+      "files": "^hooks/session-start\\.sh$",
+      "replacement": "expected claude, codex, copilot, or zcode",
+      "rationale": "the unknown-runtime error message lists the zcode branch"
+    },
+    {
+      "pattern": "On Codex, pass the level as `spawn_agent`'s `reasoning_effort` and keep the usual instructions.",
+      "files": "^skills/interrogate/SKILL\\.md$",
+      "replacement": "On Codex, pass the level as `spawn_agent`'s `reasoning_effort` and keep the usual instructions. On ZCode, apply the level the way [zcode-tools.md](../poteto-mode/references/zcode-tools.md#subagent-policy) says: prepend the matching effort-agent definition to the subagent prompt, or pick the model with its `$<level>` reasoning suffix where the model supports one.",
+      "rationale": "the effort-override paragraph must resolve for ZCode dispatches too"
+    }
+  ]
+}

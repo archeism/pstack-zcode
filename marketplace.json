@@ -1,0 +1,16 @@
+{
+  "name": "pstack-zcode",
+  "owner": {
+    "name": "archeism",
+    "url": "https://github.com/archeism"
+  },
+  "description": "ZCode port of poteto's pstack. Rigorous agent workflows with Claude Code primitives translated to ZCode equivalents.",
+  "plugins": [
+    {
+      "name": "pstack",
+      "source": "./plugins/pstack",
+      "description": "If you want to go fast, go deep first. pstack helps you write less, but higher quality code. Rigorous agent workflows you can parallelize with confidence. Original pstack by Lauren Tan (poteto); Claude Code port by Michael Denyer; ZCode port by archeism.",
+      "version": "0.9.82"
+    }
+  ]
+}
