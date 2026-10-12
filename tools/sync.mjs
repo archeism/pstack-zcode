@@ -25,6 +25,10 @@ if (!existsSync(join(sourcePlugin, "skills"))) {
   process.exit(1);
 }
 const version = readFileSync(join(src, "VERSION"), "utf8").trim();
+// Port releases append a suffix so each port change is a new plugin version
+// (marketplace update detection keys on it, and a fresh version guarantees a
+// fresh agent-registry scan rather than any per-version caching).
+const fullVersion = `${version}-${readFileSync(join(repoRoot, "port", "RELEASE"), "utf8").trim()}`;
 const sourceCommit = execGitShort(src);
 const target = join(repoRoot, "plugins", "pstack");
 
@@ -103,19 +107,19 @@ for (const name of readdirSync(join(target, "effort-agents")).sort()) {
     const rel = relativePath(join(repoRoot, "port"), path);
     const dest = join(target, rel);
     mkdirSync(join(dest, ".."), { recursive: true });
-    writeFileSync(dest, readFileSync(path, "utf8").replaceAll("__PSTACK_VERSION__", version));
+    writeFileSync(dest, readFileSync(path, "utf8").replaceAll("__PSTACK_VERSION__", fullVersion));
   }
 })(join(repoRoot, "port"));
 
 // 4. Stamp marketplace entries with the vendored version.
 for (const marketplacePath of [join(repoRoot, "marketplace.json"), join(repoRoot, ".claude-plugin", "marketplace.json")]) {
   const marketplace = JSON.parse(readFileSync(marketplacePath, "utf8"));
-  for (const plugin of marketplace.plugins) if (plugin.name === "pstack") plugin.version = version;
+  for (const plugin of marketplace.plugins) if (plugin.name === "pstack") plugin.version = fullVersion;
   writeFileSync(marketplacePath, `${JSON.stringify(marketplace, null, 2)}\n`);
 }
 
 const skills = readdirSync(join(target, "skills")).filter((n) => statSync(join(target, "skills", n)).isDirectory()).length;
-console.log(`sync: vendored pstack ${version} (pstack-claude @ ${sourceCommit}), ${skills} skills, substitutions applied`);
+console.log(`sync: vendored pstack ${fullVersion} (pstack-claude @ ${sourceCommit}), ${skills} skills, substitutions applied`);
 
 function extOf(name) { const dot = name.lastIndexOf("."); return dot < 0 ? "" : name.slice(dot); }
 function relativePath(from, to) { return to.slice(from.length + 1); }
