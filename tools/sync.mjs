@@ -84,12 +84,17 @@ if (missing.length) {
 // 3. Overlay port-owned files, stamping the vendored version where marked.
 // First, register the effort agents: ZCode only turns `agents/*.md` into
 // dispatchable agent types (the manifest's agents list is not executed), so
-// the ten `effort-agents/*.md` files are copied beside the two native ones.
-// Upstream references them by type NAME, not path, and the effort-agents/
-// directory is kept vendored so upstream diffs stay clean.
+// the ten `effort-agents/*.md` files are copied beside the two native ones —
+// with the Claude Code-only `effort:` frontmatter key stripped, which ZCode's
+// agent parser rejects (verified: 12 files with it → 2 registered). The body
+// still states the effort level, and zcode-tools.md maps levels to the
+// model's `$<level>` reasoning suffix. Upstream references agents by type
+// NAME, not path, and `effort-agents/` stays vendored for clean diffs.
 for (const name of readdirSync(join(target, "effort-agents")).sort()) {
   if (!name.endsWith(".md")) continue;
-  cpSync(join(target, "effort-agents", name), join(target, "agents", name));
+  const text = readFileSync(join(target, "effort-agents", name), "utf8");
+  const stripped = text.replace(/^effort:.*\n/m, "");
+  writeFileSync(join(target, "agents", name), stripped);
 }
 (function overlay(dir) {
   for (const name of readdirSync(dir).sort()) {

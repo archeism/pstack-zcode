@@ -1,7 +1,6 @@
 ---
 name: poteto-agent-xhigh
 description: Runs `pstack:poteto-agent` at xhigh reasoning effort. Dispatched in place of `pstack:poteto-agent` when a pstack role's override names `@xhigh`. The caller passes the model.
-effort: xhigh
 ---
 
 # Poteto subagent
