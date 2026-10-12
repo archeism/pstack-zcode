@@ -24,8 +24,13 @@ later), comprising:
   and `pstack:comment-sicko` work as on Claude Code (dispatch smoke-tested).
 - The sync now copies the ten `effort-agents/*.md` definitions into `agents/`
   so every pstack agent type (`pstack:effort-<level>`,
-  `pstack:poteto-agent-<level>`) registers and dispatches natively on ZCode;
-  the prompt-payload fallback stays documented for skills-only installs.
-  The `effort-agents/` directory remains vendored unchanged.
+  `pstack:poteto-agent-<level>`) registers and dispatches natively on ZCode,
+  with the Claude Code-only `effort:` frontmatter key stripped as a
+  precaution; the prompt-payload fallback stays documented for skills-only
+  installs. The `effort-agents/` directory remains vendored unchanged.
+- ZCode registers plugin agents in a startup-time snapshot (source:
+  `create-app.ts` → `loadPluginAgentProfiles`): a plugin installed mid-session
+  only exposes its agent types after the next session/app start. Skills and
+  hooks, by contrast, are live immediately on install.
 - Provenance: upstream NOTICE files and both MIT license texts carried
   unchanged; this port's modifications are MIT, archeism.

@@ -86,14 +86,18 @@ if (missing.length) {
 }
 
 // 3. Overlay port-owned files, stamping the vendored version where marked.
-// First, register the effort agents: ZCode only turns `agents/*.md` into
-// dispatchable agent types (the manifest's agents list is not executed), so
-// the ten `effort-agents/*.md` files are copied beside the two native ones —
-// with the Claude Code-only `effort:` frontmatter key stripped, which ZCode's
-// agent parser rejects (verified: 12 files with it → 2 registered). The body
-// still states the effort level, and zcode-tools.md maps levels to the
+// First, register the effort agents: ZCode turns `agents/*.md` into
+// dispatchable agent types via a directory scan at process startup (the
+// manifest's agents ARRAY is not how they register). The ten
+// `effort-agents/*.md` files are copied beside the two native ones, with the
+// Claude Code-only `effort:` frontmatter key stripped as a precaution — the
+// port has not verified whether ZCode's profile parser tolerates it. The
+// body still states the effort level, and zcode-tools.md maps levels to the
 // model's `$<level>` reasoning suffix. Upstream references agents by type
 // NAME, not path, and `effort-agents/` stays vendored for clean diffs.
+// NOTE: agent registration is a startup-time snapshot (create-app.ts
+// loadPluginAgentProfiles) — an install only takes effect for agent types
+// on the next session/app start.
 for (const name of readdirSync(join(target, "effort-agents")).sort()) {
   if (!name.endsWith(".md")) continue;
   const text = readFileSync(join(target, "effort-agents", name), "utf8");
