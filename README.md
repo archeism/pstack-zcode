@@ -29,7 +29,7 @@ The 58 skills are the same files pstack-claude generates for Claude Code; the di
 
 - **Native ZCode manifest** — `.zcode-plugin/plugin.json` declares the skills tree and the session hook (first probe position; no reliance on ZCode's Claude-manifest fallback).
 - **Platform mapping** — [`zcode-tools.md`](plugins/pstack/skills/poteto-mode/references/zcode-tools.md) resolves every Claude tool, subagent, effort level, and model name pstack names to its ZCode equivalent, the same way pstack-claude maps them for Codex, Pi, and Copilot.
-- **Subagents** — ZCode does not register plugin agent types, so the 11 agent definitions (`poteto-agent`, effort tiers, `comment-sicko`) travel as files and dispatch as `Agent(general-purpose)` calls whose prompt carries the definition body (see the mapping's Subagent policy).
+- **Subagents** — ZCode registers plugin agents from the `agents/` directory as native agent types, so `pstack:poteto-agent` and `pstack:comment-sicko` dispatch by name exactly as on Claude Code (verified by live dispatch). The `effort-agents/` tiers are not registered as types; they dispatch as `Agent(general-purpose)` calls whose prompt carries the definition body (see the mapping's Subagent policy).
 - **Session hook** — the same `SessionStart` routing instruction, wired through `hooks/zcode-hooks.json` with the `zcode` runtime branch in `session-start.sh`; the models sheet lives at `~/.zcode/pstack-models.md`.
 - **Substitutions** — `tools/substitutions.json` records every token rewrite over the vendored tree (Platform Adaptation pointer, per-skill mapping pointers, the setup-pstack runtime row, the hook branch), each with its rationale.
 

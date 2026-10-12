@@ -10,8 +10,8 @@ later), comprising:
   manifests; `tools/sync.mjs` vendor pipeline with
   `tools/substitutions.json` recording every token rewrite.
 - `skills/poteto-mode/references/zcode-tools.md`: the ZCode platform mapping
-  (tool table, subagent-as-prompt policy, effort-level and model-name
-  resolution, driver table, per-skill notes), mirroring the structure of the
+  (tool table, subagent policy, effort-level and model-name resolution,
+  driver table, per-skill notes), mirroring the structure of the
   Codex/Pi/Copilot mapping docs.
 - Substitutions over the vendored tree: ZCode pointer in poteto-mode's
   Platform Adaptation, ZCode pointer on the fourteen skills that carry the
@@ -19,5 +19,10 @@ later), comprising:
   runtimes table, the ZCode effort mapping in interrogate's override
   paragraph, and a `zcode` branch (sheet at `${ZCODE_HOME:-~/.zcode}`) in
   `hooks/session-start.sh`, wired through `hooks/zcode-hooks.json`.
+- Correction after live verification: ZCode registers plugin agents from the
+  `agents/` directory as native dispatchable types, so `pstack:poteto-agent`
+  and `pstack:comment-sicko` work as on Claude Code (dispatch smoke-tested);
+  only the `effort-agents/` tiers need the prompt-payload fallback. The
+  mapping doc and README were updated to say so.
 - Provenance: upstream NOTICE files and both MIT license texts carried
   unchanged; this port's modifications are MIT, archeism.
